@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+	  <TargetFramework>net6.0-windows</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>GestureSign.ExtraPlugins.TextCopyer</RootNamespace>
     <AssemblyName>GestureSign.ExtraPlugins.TextCopyer</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <Platforms>AnyCPU;x64</Platforms>
+	  <Platforms>x64;ARM64</Platforms>
   </PropertyGroup>
     <PropertyGroup>
 		<OutDir>..\bin\$(configuration)</OutDir>

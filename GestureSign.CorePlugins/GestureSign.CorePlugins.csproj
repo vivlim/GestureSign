@@ -6,7 +6,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <Platforms>AnyCPU;x64</Platforms>
+	<Platforms>x64;ARM64</Platforms>
   </PropertyGroup>
   <PropertyGroup>
 	  <OutDir>..\bin\$(configuration)</OutDir>
@@ -26,9 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Management" Version="6.0.0" />
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.336902">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Languages\en.xml" />

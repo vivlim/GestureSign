@@ -8,7 +8,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <Platforms>AnyCPU;x64</Platforms>
+	  <Platforms>x64;ARM64</Platforms>
   </PropertyGroup>
 	<PropertyGroup>
 		<OutDir>..\bin\$(configuration)</OutDir>
