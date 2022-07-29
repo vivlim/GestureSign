@@ -5,7 +5,6 @@ using System.Security.Permissions;
 
 namespace GestureSign.Daemon.Native
 {
-    [SecurityPermission(SecurityAction.Demand, UnmanagedCode = true)]
     public sealed class SafeUnmanagedMemoryHandle : SafeHandleZeroOrMinusOneIsInvalid
     {
         // Set ownsHandle to true for the default constructor.

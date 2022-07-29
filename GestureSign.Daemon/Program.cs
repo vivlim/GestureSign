@@ -27,6 +27,7 @@ namespace GestureSign.Daemon
                 if (createdNew)
                 {
                     Application.EnableVisualStyles();
+                    Application.SetHighDpiMode(HighDpiMode.SystemAware);
                     //Application.SetCompatibleTextRenderingDefault(false);
                     try
                     {

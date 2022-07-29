@@ -318,7 +318,7 @@ namespace GestureSign.Common.Configuration
 #if uiAccess
             UiAccess = VersionHelper.IsWindows8OrGreater();
 #endif
-            CurrentFolderPath = Path.GetDirectoryName(new Uri(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+            CurrentFolderPath = Path.GetDirectoryName(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location).LocalPath);
 #if Portable
             ApplicationDataPath = Path.Combine(CurrentFolderPath, "AppData");
             LocalApplicationDataPath = ApplicationDataPath;
