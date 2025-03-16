@@ -25,11 +25,8 @@ namespace GestureSign.Common.InterProcessCommunication
 
         private void RunReceivingServer(string pipeName, IMessageProcessor messageProcessor)
         {
-            PipeSecurity pipeSecurity = new PipeSecurity();
-            pipeSecurity.SetAccessRule(new PipeAccessRule(new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null), PipeAccessRights.ReadWrite, AccessControlType.Allow));
-
             _namedPipeServer = new NamedPipeServerStream(NamedPipe.GetUserPipeName(pipeName), PipeDirection.In, 1, PipeTransmissionMode.Message,
-                PipeOptions.Asynchronous, 0, 0, pipeSecurity);
+                PipeOptions.Asynchronous, 0, 0);
 
             AsyncCallback ac = null;
             ac = o =>

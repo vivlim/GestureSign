@@ -48,7 +48,7 @@ namespace GestureSign.ControlPanel.Log
 
         public static string OutputLog()
         {
-            StringBuilder result = new StringBuilder(2048);
+            StringBuilder result = new(2048);
 
             var rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
             if (rk != null)
@@ -61,12 +61,11 @@ namespace GestureSign.ControlPanel.Log
             using (RegistryKey layers = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers"))
             {
                 string daemonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Constants.DaemonFileName);
-                var daemonRecord = layers?.GetValue(daemonPath) as string;
-                if (daemonRecord != null && daemonRecord.Contains("WIN8RTM")) version += " CompatibilityMode";
+                if (layers?.GetValue(daemonPath) is string daemonRecord && daemonRecord.Contains("WIN8RTM")) version += " CompatibilityMode";
             }
             result.AppendLine(version);
 
-            string directoryPath = Path.GetDirectoryName(new Uri(Application.ResourceAssembly.CodeBase).LocalPath);
+            string directoryPath = Path.GetDirectoryName(new Uri(Application.ResourceAssembly.Location).LocalPath);
             if (directoryPath != null)
             {
                 result.AppendLine(directoryPath);
@@ -75,7 +74,7 @@ namespace GestureSign.ControlPanel.Log
 
             try
             {
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_computersystem");
+                ManagementObjectSearcher searcher = new("SELECT * FROM Win32_computersystem");
                 foreach (ManagementObject mo in searcher.Get())
                 {
                     try
@@ -108,9 +107,9 @@ namespace GestureSign.ControlPanel.Log
             {
                 try
                 {
-                    FileStream fs = new FileStream(Logging.LogFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                    using (StreamReader streamReader = new StreamReader(fs))
-                        result.Append(streamReader.ReadToEnd());
+                    FileStream fs = new(Logging.LogFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    using StreamReader streamReader = new(fs);
+                    result.Append(streamReader.ReadToEnd());
                 }
                 catch (Exception e)
                 {
@@ -120,12 +119,12 @@ namespace GestureSign.ControlPanel.Log
             result.AppendLine();
             result.AppendLine();
 
-            EventLog logs = new EventLog { Log = "Application" };
+            EventLog logs = new() { Log = "Application" };
 
             foreach (EventLogEntry entry in logs.Entries)
             {
                 if (entry.EntryType == EventLogEntryType.Error && ".NET Runtime".Equals(entry.Source) &&
-                    entry.Message.IndexOf("GestureSign", StringComparison.OrdinalIgnoreCase) >= 0)
+                    entry.Message.Contains("GestureSign", StringComparison.OrdinalIgnoreCase))
                 {
                     result.AppendLine(entry.TimeWritten.ToString(CultureInfo.InvariantCulture));
                     result.AppendLine(entry.Message.Replace("\n", "\r\n"));

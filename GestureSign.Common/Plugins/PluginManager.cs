@@ -8,9 +8,11 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using GestureSign.Common.Applications;
+using GestureSign.Common.Configuration;
 using GestureSign.Common.Input;
 using GestureSign.Common.Log;
 using ManagedWinapi.Windows;
+using ExtendControls;
 
 namespace GestureSign.Common.Plugins
 {
@@ -41,7 +43,7 @@ namespace GestureSign.Common.Plugins
 
         protected PluginManager()
         {
-
+        
         }
 
         #endregion
@@ -105,6 +107,20 @@ namespace GestureSign.Common.Plugins
                         // Execute plugin process
                         pluginInfo.Plugin.Gestured(pointInfo);
                     }
+
+                    // Display action executed notification
+                    if (AppConfig.GestureExeTips && commandList.Count > 0)
+                    {
+                        // For mouse gesture and touchpad, use the cursor position, others use last point of gesture trail
+                        if (devices == Devices.Mouse || devices == Devices.TouchPad)
+                        {
+                            MessageTip.Show(executableAction.Name, style: new TipStyle());
+                        }
+                        else
+                        {
+                            MessageTip.Show(executableAction.Name, point: points[0][points[0].Count - 1], style: new TipStyle());
+                        }
+                    }
                 }
             });
 
@@ -133,7 +149,7 @@ namespace GestureSign.Common.Plugins
             // Clear any existing plugins
             _Plugins = new List<IPluginInfo>();
             //_Plugins.Clear();
-            string directoryPath = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+            string directoryPath = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().Location).LocalPath);
             if (directoryPath == null) return true;
 
             // Load core plugins.
